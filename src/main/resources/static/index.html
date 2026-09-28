@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17382c">
+  <title>MaintainIT | Preventive Maintenance</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#dashboard" aria-label="MaintainIT dashboard">
+      <span class="brand-mark">M</span>
+      <span>MaintainIT<small>WORKSHOP MAINTENANCE</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-link active" type="button" data-page="dashboard">Dashboard</button>
+      <button class="nav-link" type="button" data-page="equipment">Equipment</button>
+      <button class="nav-link" type="button" data-page="maintenance">Maintenance</button>
+      <button class="nav-link" type="button" data-page="technicians">Technicians</button>
+    </nav>
+    <div class="connection" id="connection"><span class="connection-dot"></span><span>Connecting</span></div>
+  </header>
+
+  <main class="page-shell">
+    <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+
+    <section class="page active" id="dashboard" aria-labelledby="dashboard-title">
+      <div class="page-heading">
+        <div><p class="eyebrow">WORKSHOP OVERVIEW</p><h1 id="dashboard-title">Dashboard</h1><p class="subheading">A clear view of the equipment and service work ahead.</p></div>
+        <span class="today" id="today"></span>
+      </div>
+      <section class="stat-grid" aria-label="Maintenance summary">
+        <article class="stat-card stat-total"><span>Total equipment</span><strong id="total-equipment">0</strong><small>Machines on record</small></article>
+        <article class="stat-card"><span>Upcoming maintenance</span><strong id="upcoming-maintenance">0</strong><small>Scheduled from today</small></article>
+        <article class="stat-card stat-alert"><span>Overdue maintenance</span><strong id="overdue-maintenance">0</strong><small>Past the scheduled date</small></article>
+        <article class="stat-card"><span>Completed maintenance</span><strong id="completed-maintenance">0</strong><small>Marked complete</small></article>
+      </section>
+      <section class="panel dashboard-list">
+        <div class="panel-heading"><div><h2>Upcoming maintenance</h2><p>Your next scheduled service tasks</p></div><button class="text-link" type="button" data-go="maintenance">View schedule</button></div>
+        <div class="table-scroll"><table><thead><tr><th>Equipment</th><th>Maintenance</th><th>Scheduled date</th><th>Status</th></tr></thead><tbody id="dashboard-maintenance"></tbody></table></div>
+      </section>
+    </section>
+
+    <section class="page" id="equipment" aria-labelledby="equipment-title" hidden>
+      <div class="page-heading"><div><p class="eyebrow">ASSET REGISTER</p><h1 id="equipment-title">Equipment</h1><p class="subheading">Add machines and keep their details up to date.</p></div></div>
+      <div class="content-grid">
+        <section class="panel form-panel"><div class="panel-heading"><div><h2>Add equipment</h2><p>Enter the equipment details.</p></div></div>
+          <form id="equipment-form" class="data-form">
+            <label>Equipment name<input name="equipmentName" required placeholder="e.g. Workshop drill"></label>
+            <label>Equipment code<input name="equipmentCode" required placeholder="e.g. DRL-001"></label>
+            <label>Category<input name="category" required placeholder="e.g. Power tools"></label>
+            <label>Location<input name="location" required placeholder="e.g. Workshop A"></label>
+            <label>Purchase date<input name="purchaseDate" type="date"></label>
+            <label>Status<select name="status" required><option value="Active">Active</option><option value="Maintenance">Maintenance</option><option value="Inactive">Inactive</option></select></label>
+            <button class="button button-primary" type="submit">Save equipment</button>
+          </form>
+        </section>
+        <section class="panel table-panel"><div class="panel-heading"><div><h2>Equipment list</h2><p id="equipment-count">0 machines</p></div></div>
+          <div class="table-scroll"><table><thead><tr><th>Name / code</th><th>Category</th><th>Location</th><th>Status</th></tr></thead><tbody id="equipment-table"></tbody></table></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="page" id="maintenance" aria-labelledby="maintenance-title" hidden>
+      <div class="page-heading"><div><p class="eyebrow">PREVENTIVE CARE</p><h1 id="maintenance-title">Maintenance</h1><p class="subheading">Plan service before a machine needs repair.</p></div></div>
+      <div class="content-grid">
+        <section class="panel form-panel"><div class="panel-heading"><div><h2>Add maintenance schedule</h2><p>Choose the equipment and set a service date.</p></div></div>
+          <form id="maintenance-form" class="data-form">
+            <label>Equipment<select name="equipmentId" id="maintenance-equipment" required><option value="">Select equipment</option></select></label>
+            <label>Maintenance type<input name="maintenanceType" required placeholder="e.g. Inspection"></label>
+            <label>Scheduled date<input name="scheduledDate" type="date" required></label>
+            <label>Frequency<input name="frequency" required placeholder="e.g. Monthly"></label>
+            <label>Description<textarea name="description" rows="3" placeholder="What needs to be checked?"></textarea></label>
+            <label>Status<select name="status" required><option value="Scheduled">Scheduled</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option></select></label>
+            <button class="button button-primary" type="submit">Save schedule</button>
+          </form>
+        </section>
+        <section class="panel table-panel"><div class="panel-heading"><div><h2>Maintenance schedule</h2><p id="maintenance-count">0 tasks</p></div></div>
+          <div class="table-scroll"><table><thead><tr><th>Equipment</th><th>Type</th><th>Scheduled</th><th>Frequency</th><th>Status</th></tr></thead><tbody id="maintenance-table"></tbody></table></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="page" id="technicians" aria-labelledby="technicians-title" hidden>
+      <div class="page-heading"><div><p class="eyebrow">WORKSHOP TEAM</p><h1 id="technicians-title">Technicians</h1><p class="subheading">Keep specialist contact details together.</p></div></div>
+      <div class="content-grid">
+        <section class="panel form-panel"><div class="panel-heading"><div><h2>Add technician</h2><p>Enter the technician's contact details.</p></div></div>
+          <form id="technician-form" class="data-form">
+            <label>Name<input name="name" required placeholder="Full name"></label>
+            <label>Email<input name="email" type="email" required placeholder="name@workshop.com"></label>
+            <label>Phone<input name="phone" required placeholder="Phone number"></label>
+            <label>Specialization<input name="specialization" required placeholder="e.g. Electrical"></label>
+            <button class="button button-primary" type="submit">Save technician</button>
+          </form>
+        </section>
+        <section class="panel table-panel"><div class="panel-heading"><div><h2>Technician directory</h2><p id="technician-count">0 technicians</p></div></div>
+          <div class="table-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Specialization</th></tr></thead><tbody id="technician-table"></tbody></table></div>
+        </section>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
